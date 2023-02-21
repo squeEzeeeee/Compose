@@ -26,6 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,15 +38,23 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column() {
+            Column {
                 Cap()
                 ListItem(name = "Роман Королёв", number = "+79541024498")
                 profButton("Моё Резюме")
+                nonClickable()
+                studPlace(heading = "Университет", content = "Казанский Федеральный Университет")
+                studPlace(heading = "Институт", content ="ИВМиИТ" )
+                studPlace(heading = "Факультет", content ="Прикладная информатика" )
+
 
             }
+
         }
+
     }
 }
+
 
 
 @Composable
@@ -65,7 +75,7 @@ private fun Cap() {
                 contentDescription = "bell",
                 contentScale = ContentScale.Inside,
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(10.dp)
                     .clickable {
 
                     }
@@ -89,20 +99,22 @@ private fun Cap() {
 }
 
 
+@Preview
 @Composable
 private fun ListItem(name: String, number: String) {
     Card(
         modifier = Modifier
-            .background(Color.White)
             .fillMaxWidth()
             .fillMaxSize(0.2f)
             .padding(10.dp),
-        elevation = 5.dp,
-        shape = RoundedCornerShape(15.dp)
+
+        shape = RoundedCornerShape(15.dp),
+        elevation = 0.dp
+
     )
     {
 
-        
+
         Box() {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
@@ -132,13 +144,19 @@ private fun profButton(context: String) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.13f)
-            .padding(10.dp),
+            .padding(10.dp).clickable {
+                Log.d("click","click")
+            },
         elevation = 5.dp,
         shape = RoundedCornerShape(15.dp),
     ) {
-        Box(modifier = Modifier.background(Color.Black),
-            contentAlignment = Alignment.Center){
-            Text(text = context, color=Color.White)
+        Box(
+            modifier = Modifier.background(Color.Black).clickable {
+
+            },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = context, color = Color.White)
         }
 
 
@@ -146,6 +164,40 @@ private fun profButton(context: String) {
 
 
 }
+
+@Composable
+fun nonClickable() {
+    Box(contentAlignment = Alignment.TopStart, modifier = Modifier.padding(start = 14.dp)) {
+        Text(
+            text = "Место учёбы",
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
+    }}
+    @Composable
+    fun studPlace(heading:String, content: String) {
+        Card(modifier = Modifier.padding(start = 14.dp, top=14.dp)) {
+
+
+            Column() {
+                Text(text = heading, color = Color.Gray)
+                Text(text = content)
+
+            }
+
+
+        }
+        }
+
+
+
+
+
+
+
+
+
 
 
 
