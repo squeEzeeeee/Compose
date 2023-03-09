@@ -1,13 +1,15 @@
 package android.compose
 
+import ItemRow
+import ResponsesModel
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -32,10 +34,12 @@ class MainActivity : ComponentActivity() {
                 Cap()
                 ListItem(name = "Роман Королёв", number = "+79541024498")
                 profButton("Моё Резюме")
-                nonClickable()
+                nonClickable("Место Учёбы")
                 studPlace(heading = "Университет", content = "Казанский Федеральный Университет")
                 studPlace(heading = "Институт", content = "ИВМиИТ")
                 studPlace(heading = "Факультет", content = "Прикладная информатика")
+                responsesRow()
+
             }
 
         }
@@ -95,6 +99,7 @@ class MainActivity : ComponentActivity() {
                 .fillMaxSize(0.25f)
                 .padding(10.dp),
 
+
             shape = RoundedCornerShape(15.dp),
             elevation = 0.dp
 
@@ -104,16 +109,21 @@ class MainActivity : ComponentActivity() {
 
             Box() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    val borderWidth=2.dp
                     Image(
                         painter = painterResource(id = R.drawable.worker),
                         contentDescription = "worker",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .padding(2.dp)
-                            .size(140.dp)
+                            .size(120.dp)
                             .clip(CircleShape)
+                            .border(
+                                BorderStroke(borderWidth, color = Color.Black),
+                                CircleShape
+                            )
                     )
-                    Column() {
+                    Column(modifier = Modifier.padding(8.dp)) {
                         Text(text = name, fontSize = 25.sp)
                         Text(text = number, fontSize = 18.sp)
 
@@ -133,7 +143,7 @@ class MainActivity : ComponentActivity() {
                 .fillMaxHeight(0.15f)
                 .padding(10.dp)
                 .clickable {
-                    Log.d("click", "АУЕ")
+
                 },
             elevation = 5.dp,
             shape = RoundedCornerShape(15.dp),
@@ -156,10 +166,10 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun nonClickable() {
+    fun nonClickable(context: String) {
         Box(contentAlignment = Alignment.TopStart, modifier = Modifier.padding(start = 14.dp)) {
             Text(
-                text = "Место учёбы",
+                text = context,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
@@ -185,7 +195,30 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
+    @Composable
+    fun responsesRow() {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .padding(10.dp)
+        ) {itemsIndexed(
+            listOf(
+                ResponsesModel(R.drawable.apple, "Разработчик","Akvelon"),
+                ResponsesModel(R.drawable.twitter, "Тестировщик","Anderson")
+            )){
+            _,item ->
+                ItemRow(item)
+        }
+
+
+        }
+
+    }
 }
+
+
+
 
 
 
