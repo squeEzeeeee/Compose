@@ -2,6 +2,7 @@ package android.compose
 
 import ItemRow
 import ResponsesModel
+import android.compose.ui.theme.gray
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -97,7 +98,8 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize(0.25f)
-                .padding(10.dp),
+                .padding(10.dp)
+                ,
 
 
             shape = RoundedCornerShape(15.dp),
@@ -108,7 +110,7 @@ class MainActivity : ComponentActivity() {
 
 
             Box() {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)) {
                     val borderWidth=2.dp
                     Image(
                         painter = painterResource(id = R.drawable.worker),
@@ -206,6 +208,7 @@ class MainActivity : ComponentActivity() {
             listOf(
                 ResponsesModel(R.drawable.apple, "Разработчик","Akvelon"),
                 ResponsesModel(R.drawable.twitter, "Тестировщик","Anderson")
+
             )){
             _,item ->
                 ItemRow(item)
